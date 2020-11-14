@@ -1,4 +1,4 @@
-import React , { useRef , useState } from 'react'
+import React , { useState } from 'react'
 import { FontAwesomeIcon }  from '@fortawesome/react-fontawesome'
 import { faPlay, faAngleLeft,faAngleRight, faPause } from '@fortawesome/free-solid-svg-icons'
 
@@ -6,10 +6,10 @@ const playSongHandler = () => {
 
 }
 
-const Player = ( { currentSong , isPlaying , setIsPlaying } ) => {
+const Player = ( { currentSong , isPlaying , setIsPlaying ,audioRef , songInfo, setSongInfo} ) => {
     //Ref
 
-    const audioRef = useRef(null);
+    
     
     //event handlers
 
@@ -23,11 +23,7 @@ const Player = ( { currentSong , isPlaying , setIsPlaying } ) => {
         }
     };
     
-    const timeUpdateHandler = (e) => {
-        const current = e.target.currentTime;
-        const duration = e.target.duration;
-        setSongInfo({...songInfo, currentTime:current ,duration:duration })
-    };
+    
 
     const getTime = (time) => {
         return (
@@ -41,10 +37,7 @@ const Player = ( { currentSong , isPlaying , setIsPlaying } ) => {
 
     }
     //state
-    const [songInfo , setSongInfo] =useState({ 
-        currentTime: 0,
-        duration: 0,
-    });
+    
 
    
     return (
@@ -66,7 +59,7 @@ const Player = ( { currentSong , isPlaying , setIsPlaying } ) => {
                 
                 <FontAwesomeIcon className = "skip-forward" size="2x"  icon = { faAngleRight } />
             </div>
-            <audio onLoadedMetadata={timeUpdateHandler} onTimeUpdate={timeUpdateHandler} ref = {audioRef} src={currentSong.audio}></audio>
+            
         </div>
     )
 }
