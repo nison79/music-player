@@ -12,8 +12,10 @@ import data from './Data'
 function App() {
 
 //Ref
+
   const audioRef = useRef(null);
   //state
+
   const [songs,setSongs] = useState(data());
   const [currentSong,setCurrentSong]= useState(songs[0]);
   const [isPlaying,setIsPlaying] = useState(false);
@@ -23,6 +25,24 @@ function App() {
     animationPercentage:0,
 });
   const [libraryStatus,setLibraryStatus] = useState(false);
+  //event handlers
+
+  const activeLibraryHandler = (nextPrev) => {
+    const newSongs = songs.map((song) => {
+        if( song.id === nextPrev.id) {
+            return {
+                ...song,
+                active:true,
+            };
+        } else {
+            return {
+                ...song,
+                active:false,
+            };
+        }
+    });
+    setSongs(newSongs);
+}
 
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
@@ -37,11 +57,13 @@ function App() {
   const songEndHandler = async () => {
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
     await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
+    
     if(isPlaying) audioRef.current.play();
   }
 
   return (
-    <div className="App">
+    <div className={`App ${libraryStatus ? 'library-active' : ""   }`}>
       <Nav  libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus}/>
       <Song currentSong={currentSong}/>
       <Player
