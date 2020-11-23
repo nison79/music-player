@@ -12,6 +12,7 @@
     opacity:0;
     h2 {
         padding:2rem;
+        text-decoration-line: underline;
     }
 
 }
@@ -21,6 +22,7 @@
     align-items: center;
     padding:1rem 2rem 1rem 2rem;
     cursor: pointer;
+    border:none;
     transition: background 0.5s ease;
     img {
         width:30%;
